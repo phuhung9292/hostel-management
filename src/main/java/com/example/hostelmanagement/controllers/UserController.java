@@ -1,5 +1,6 @@
 package com.example.hostelmanagement.controllers;
 
+import com.example.hostelmanagement.models.Contract;
 import com.example.hostelmanagement.models.User;
 import com.example.hostelmanagement.repositories.UserRepository;
 import org.jetbrains.annotations.NotNull;
@@ -80,5 +81,24 @@ public class UserController {
         } finally {
             return "admin_userMngt";
         }
+    }
+    @GetMapping(value = "history/{id}")
+    public String history(@PathVariable(name="id",required = false) int id, HttpSession session, ModelMap mm){
+        try {
+
+            List<Contract> history = userRepository.getHistoryOfUserByUserID(id);
+            if(!history.isEmpty())
+                mm.put("listHistory", history);
+            else
+                mm.put("message","sorry you don't have any history booking hostel");
+        }
+        catch (Exception e){
+
+
+ }
+        finally {
+            return "history";
+        }
+
     }
 }
